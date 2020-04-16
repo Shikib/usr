@@ -1,4 +1,4 @@
-export EVAL_FILE=../../../labels/understandable/test.lm
+export EVAL_FILE=undr/test.lm
 
 CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
     --per_gpu_eval_batch_size=1 \

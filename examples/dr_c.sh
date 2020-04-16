@@ -1,4 +1,4 @@
-export DATA_DIR=../../../labels/both/
+export DATA_DIR=both/
 
 CUDA_VISIBLE_DEVICES=1 python3 train_understandable.py \
     --per_gpu_eval_batch_size=1 \

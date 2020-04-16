@@ -1,4 +1,4 @@
-export DATA_DIR=../../../labels/uk/
+export DATA_DIR=fct/
 
 CUDA_VISIBLE_DEVICES=1 python3 train_understandable.py \
     --per_gpu_eval_batch_size=1 \

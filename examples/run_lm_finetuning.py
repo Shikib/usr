@@ -351,7 +351,7 @@ def evaluate(args, model, tokenizer, prefix=""):
     eval_loss = eval_loss / nb_eval_steps
     perplexity = torch.exp(torch.tensor(eval_loss))
     #open("/home/shikib/alexa-prize-topical-chat-dataset/labels/mlm_roberta.scores", "w+").write(str(scores))
-    open("mlm_roberta.scores", "w+").write(str(scores))
+    open("undr/mlm_roberta.scores", "w+").write(str(scores))
     quit()
 
     #result = {
