@@ -150,6 +150,45 @@ def glue_convert_examples_to_features(examples, tokenizer,
 
     return features
 
+u_basedir = "/home/shikib/alexa-prize-topical-chat-dataset/lm_finetune/understandable/"
+class UnderstandableProcessor(DataProcessor):
+    """Processor for the Understandable data set."""
+
+    def get_example_from_tensor_dict(self, tensor_dict):
+        """See base class."""
+        return InputExample(tensor_dict['idx'].numpy(),
+                            tensor_dict['sentence'].numpy().decode('utf-8'),
+                            None,
+                            str(tensor_dict['label'].numpy()))
+
+    def get_train_examples(self, data_dir):
+        """See base class."""
+        return self._create_examples(
+            self._read_tsv(os.path.join(u_basedir, "train.tsv")), "train")
+
+    def get_dev_examples(self, data_dir):
+        """See base class."""
+        return self._create_examples(
+            self._read_tsv(os.path.join(u_basedir, "test.usv")), "dev")
+
+    def get_labels(self):
+        """See base class."""
+        return ["0", "1"]
+
+    def _create_examples(self, lines, set_type):
+        """Creates examples for the training and dev sets."""
+        examples = []
+        for (i, line) in enumerate(lines):
+            if i == 0:
+                continue
+            guid = "%s-%s" % (set_type, i)
+            text_a = line[0]
+            label = line[1]
+            examples.append(
+                InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+        return examples
+
+
 
 class MrpcProcessor(DataProcessor):
     """Processor for the MRPC data set (GLUE version)."""
@@ -523,6 +562,7 @@ glue_tasks_num_labels = {
     "qnli": 2,
     "rte": 2,
     "wnli": 2,
+    "understandable": 2,
 }
 
 glue_processors = {
@@ -536,6 +576,7 @@ glue_processors = {
     "qnli": QnliProcessor,
     "rte": RteProcessor,
     "wnli": WnliProcessor,
+    "understandable": UnderstandableProcessor,
 }
 
 glue_output_modes = {
@@ -549,4 +590,5 @@ glue_output_modes = {
     "qnli": "classification",
     "rte": "classification",
     "wnli": "classification",
+    "understandable": "classification",
 }
