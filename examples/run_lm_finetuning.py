@@ -80,13 +80,20 @@ class TextDataset(Dataset):
                 text = f.read()
 
             tokenized_text = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(text))
+
+
+            # TODO:  uncomment for inference
             for l in text.split('\n')[:-1]:
               tokenized_l = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(l))
               self.examples.append(tokenizer.build_inputs_with_special_tokens(tokenized_l))
 
 
+            # TODO: uncomment for training
             #for i in range(0, len(tokenized_text)-block_size+1, block_size): # Truncate in block of block_size
             #    self.examples.append(tokenizer.build_inputs_with_special_tokens(tokenized_text[i:i+block_size]))
+
+
+
             # Note that we are loosing the last truncated example here for the sake of simplicity (no padding)
             # If your dataset is small, first you should loook for a bigger one :-) and second you
             # can change this behavior by adding (model specific) padding.
@@ -145,7 +152,7 @@ def _rotate_checkpoints(args, checkpoint_prefix, use_mtime=False):
 
 def mask_tokens_understandable(inputs, tokenizer, args):
     """ Prepare masked tokens inputs/labels for masked language modeling: 80% MASK, 10% random, 10% original. """
-    ## Find length of last utterance by looking for _eos _go
+    # Find length of last utterance by looking for _eos _go
     #start = inputs.tolist()[0].index(366) + 1
 
     #inputs = inputs.repeat(inputs.size(1)-start-1, 1)
@@ -156,6 +163,7 @@ def mask_tokens_understandable(inputs, tokenizer, args):
     #  inputs[i, masked_indices[i]] = tokenizer.convert_tokens_to_ids(tokenizer.mask_token)
 
     #return inputs, labels
+
     inputs = inputs.repeat(inputs.size(1)-2, 1)
     labels = inputs.clone() * 0 - 1
     
@@ -351,7 +359,9 @@ def evaluate(args, model, tokenizer, prefix=""):
     eval_loss = eval_loss / nb_eval_steps
     perplexity = torch.exp(torch.tensor(eval_loss))
     #open("/home/shikib/alexa-prize-topical-chat-dataset/labels/mlm_roberta.scores", "w+").write(str(scores))
-    open("undr/mlm_roberta.scores", "w+").write(str(scores))
+
+    #open("undr/mlm_roberta.scores", "w+").write(str(scores))
+    open("undr/pc_mlm_roberta.scores", "w+").write(str(scores))
     quit()
 
     #result = {
