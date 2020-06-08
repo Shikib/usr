@@ -20,4 +20,4 @@ Regression: `python3 regression.py`
 
 # Dataset
 
-The USR data can be found [here](http://shikib.com/usr_data.json) 
+The USR data can be found [here](http://shikib.com/usr) 
