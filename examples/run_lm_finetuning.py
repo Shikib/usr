@@ -344,7 +344,7 @@ def evaluate(args, model, tokenizer, prefix=""):
 
     scores = []
     for batch in tqdm(eval_dataloader, desc="Evaluating"):
-        inputs, labels = mask_tokens_understandable(batch, tokenizer, args) if args.mlm else (batch, batch)
+        inputs, labels = mask_tokens_understandable(batch[:,-100:], tokenizer, args) if args.mlm else (batch, batch)
         #inputs, labels = mask_tokens(batch, tokenizer, args) if args.mlm else (batch, batch)
         inputs = inputs.to(args.device)
         labels = labels.to(args.device)
@@ -361,7 +361,8 @@ def evaluate(args, model, tokenizer, prefix=""):
     #open("/home/shikib/alexa-prize-topical-chat-dataset/labels/mlm_roberta.scores", "w+").write(str(scores))
 
     #open("undr/mlm_roberta.scores", "w+").write(str(scores))
-    open("undr/pc_mlm_roberta.scores", "w+").write(str(scores))
+    fn = args.eval_data_file.split(".")[0] + ".scores"
+    open(fn, "w+").write(str(scores))
     quit()
 
     #result = {
