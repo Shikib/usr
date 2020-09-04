@@ -10,6 +10,10 @@
 
 From the `examples/` directory:
 
+Full USR metric (might require some editing of the file): `dstc9_eval.py`
+
+Specific sub-metrics (harder):
+
 MLM: `sh mlm_scores.sh`
 
 DR-c: `sh dr_c.sh`
@@ -17,6 +21,7 @@ DR-c: `sh dr_c.sh`
 DR-f: `sh dr_f.sh`
 
 Regression: `python3 regression.py`
+
 
 # Dataset
 
